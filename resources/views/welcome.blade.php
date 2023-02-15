@@ -24,13 +24,13 @@
     <div class="text-center justify-content-start">
         <h2 class="mb-4">Expense Tracker</h2>
         <h4 class="text-uppercase">your balance</h4>
-        <h4>Ksh. 0.00</h4>
+        <h4>Ksh. {{ $transactions->sum('amount') }}</h4>
 
         <div class="row ">
             <div class="col-md-3"></div>
             <div class="col-md-3 shadow" style="border-right: 1px solid #dedede">
                 <h5 class="text-uppercase mt-4 ">Income</h5>
-                <h6 class="text-success">+Ksh. 105.00</h6>
+                <h6 class="text-success">+Ksh. {{ $transactions->sum('amount') }}</h6>
             </div>
             <div class="col-md-3 shadow">
                 <h5 class="text-uppercase mt-4">Expense</h5>
@@ -52,17 +52,34 @@
             <div class="col-md-3"></div>
         </div> --}}
         {{-- history --}}
-        <div class="row ">
-            <div class="col-md-3"></div>
-            {{-- @foreach ($transactions as $transaction) --}}
-            <div class="col-md-3 text-left shadow ">
-                <p>description</p>
+        <div class="container" style="margin-left: 25%
+        ">
+            {{-- <div class="col-md-6"></div> --}}
+            <div class="col-md-6 ">
+                {{-- <p>description</p>
+                     --}}
+                <ul style="list-style: none;" class="">
+                    @foreach ($transactions as $transaction)
+                        <li class="text-start mb-1">
+                            {{-- <p>{{ $transaction->description }} <span class="text-end">Ksh.
+                                    {{ $transaction->amount }}</span>
+                            </p> --}}
+                            <div class="row">
+                                <div class="col-md-8">{{ $transaction->description }}</div>
+                                <div class="col-md-3">{{ $transaction->amount }}</div>
+                                <div class="col-md-1"> <a href="{{ url('delete-transaction', $transaction->id) }}"
+                                        class="btn btn-danger">X</a></div>
+                            </div>
+                        </li>
+                    @endforeach
+
+                </ul>
             </div>
-            <div class="col-md-3 shadow text-right">
-                <p>description</p>
-            </div>
-            {{-- @endforeach --}}
-            <div class="col-md-3"></div>
+            {{-- <div class="col-md-4"> --}}
+            {{-- <p>description</p> --}}
+            {{-- </div> --}}
+            {{-- <div class="col-md-3"></div> --}}
+
         </div>
 
         <h3 class="py-4">Add Transaction</h3>
