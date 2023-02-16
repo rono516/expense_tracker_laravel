@@ -30,40 +30,21 @@
             <div class="col-md-3"></div>
             <div class="col-md-3 shadow" style="border-right: 1px solid #dedede">
                 <h5 class="text-uppercase mt-4 ">Income</h5>
-                <h6 class="text-success">+Ksh. {{ $transactions->sum('amount') }}</h6>
+                <h6 class="text-success">+Ksh. {{ $transactions->where('amount', '>', 0)->sum('amount') }}</h6>
             </div>
             <div class="col-md-3 shadow">
                 <h5 class="text-uppercase mt-4">Expense</h5>
-                <h5 class="text-danger">-Ksh. 30.00</h5>
+                <h5 class="text-danger">-Ksh. {{ $transactions->where('amount', '<', 0)->sum('amount') }}</h5>
             </div>
             <div class="col-md-3"></div>
         </div>
 
         <h3 class="mt-4">History</h3>
-
-        {{-- <div class="row ">
-            <div class="col-md-3"></div>
-            <div class="col-md-3 ">
-                <hr>
-            </div>
-            <div class="col-md-3">
-                <hr>
-            </div>
-            <div class="col-md-3"></div>
-        </div> --}}
-        {{-- history --}}
-        <div class="container" style="margin-left: 25%
-        ">
-            {{-- <div class="col-md-6"></div> --}}
+        <div class="container" style="margin-left: 25%">
             <div class="col-md-6 ">
-                {{-- <p>description</p>
-                     --}}
                 <ul style="list-style: none;" class="">
                     @foreach ($transactions as $transaction)
                         <li class="text-start mb-1">
-                            {{-- <p>{{ $transaction->description }} <span class="text-end">Ksh.
-                                    {{ $transaction->amount }}</span>
-                            </p> --}}
                             <div class="row">
                                 <div class="col-md-8">{{ $transaction->description }}</div>
                                 <div class="col-md-3">{{ $transaction->amount }}</div>
@@ -75,57 +56,35 @@
 
                 </ul>
             </div>
-            {{-- <div class="col-md-4"> --}}
-            {{-- <p>description</p> --}}
-            {{-- </div> --}}
-            {{-- <div class="col-md-3"></div> --}}
 
         </div>
 
         <h3 class="py-4">Add Transaction</h3>
         <p>Add negative amount for spendings</p>
-        {{-- <form id="form">
-            <div className="form-control">
-                <label for="text">Text</label>
-                <input type="text" id="text" placeholder="Enter text..." />
-            </div>
-            <div className="form-control">
-                <label for="amount">Amount <br />
-                    (negative - expense, positive - income)</label>
-                <input type="number" id="amount" placeholder="Enter amount..." />
-            </div>
-            <button className="btn">Add transaction</button>
-        </form> --}}
-
 
         <form action="{{ url('insert-transaction') }}" method="POST">
             @csrf
-            <div class="row ">
-                <div class="col-md-3"></div>
-                <div class="col-md-3 shadow d-flex justify-content-start">
-                    <label for="description" class="mb-2">Transaction description</label>
-                    <input type="text" name="description" id="description">
+            <div class="form-group">
+                <div class="row ">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-3 shadow d-flex justify-content-start">
+                        <label for="description" class="mb-2">Transaction description</label>
+                        <input type="text" class="form-control" name="description" id="description">
+                    </div>
+                    <div class="col-md-3 shadow d-flex justify-content-start">
+                        <label for="amount" class="mb-2">Transaction amount</label>
+                        <input type="amount" class="form-control" name="amount" id="amount">
+                    </div>
+                    <div class="col-md-3"></div>
                 </div>
-                <div class="col-md-3 shadow d-flex justify-content-start">
-                    <label for="amount" class="mb-2">Transaction amount</label>
-                    <input type="amount" name="amount" id="amount">
+                <div class="py-2">
+                    <button class="btn btn-primary">Add transaction</button>
                 </div>
-                <div class="col-md-3"></div>
-            </div>
-            <div class="py-2">
-                <button class="btn btn-primary">Add transaction</button>
             </div>
 
         </form>
 
-
-
-
-
     </div>
-
-
-
 
     {{-- Bootstrap js --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
